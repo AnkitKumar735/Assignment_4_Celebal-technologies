@@ -1,0 +1,83 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "resources": [
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2020-06-01",
+      "name": "ManagementVnet",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": ["10.1.0.0/16"]
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2020-06-01",
+      "name": "ProductionVnet",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": ["10.2.0.0/16"]
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2020-06-01",
+      "name": "TestingVnet",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": ["10.3.0.0/16"]
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2020-06-01",
+      "name": "DevelopingVnet",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": ["10.4.0.0/16"]
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworkPeerings",
+      "apiVersion": "2020-06-01",
+      "name": "ManagementVnet/ProductionVnet",
+      "properties": {
+        "allowVirtualNetworkAccess": true,
+        "remoteVirtualNetwork": {
+          "id": "[resourceId('Microsoft.Network/virtualNetworks', 'ProductionVnet')]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworkPeerings",
+      "apiVersion": "2020-06-01",
+      "name": "ManagementVnet/TestingVnet",
+      "properties": {
+        "allowVirtualNetworkAccess": true,
+        "remoteVirtualNetwork": {
+          "id": "[resourceId('Microsoft.Network/virtualNetworks', 'TestingVnet')]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworkPeerings",
+      "apiVersion": "2020-06-01",
+      "name": "ManagementVnet/DevelopingVnet",
+      "properties": {
+        "allowVirtualNetworkAccess": true,
+        "remoteVirtualNetwork": {
+          "id": "[resourceId('Microsoft.Network/virtualNetworks', 'DevelopingVnet')]"
+        }
+      }
+    }
+  ]
+}
